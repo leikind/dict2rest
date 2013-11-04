@@ -1,0 +1,32 @@
+
+run() ->
+  Client = connect(),
+  % Help = server_info(Client),
+  % io:format("~p~n", [Client]),
+  % io:format("~ts~n", [Help]),
+
+  L = match(Client, "aаааpple", "exact"),
+
+  lists:foreach(
+    fun(E) ->
+      io:format("~p~n", [E])
+      % case parse_as_word_definition_header(E) of
+      %   nomatch -> io:format("nomatch~n", []);
+      %   {match, _, _, _} -> io:format("match~n", [])
+      % end
+    end,
+    L),
+
+  % Databases = databases(Client),
+
+  % Res = proplists:is_defined(<<"foldoc">>, Databases),
+
+  % io:format("~p~n", [Res]),
+
+  % lists:foreach(fun({Name, DictDescription}) -> io:format("~p -> ~ts ~n", [Name, DictDescription]) end, Databases),
+
+  % Strategies = strategies(Client),
+  % lists:foreach(fun({Name, StratDescription}) -> io:format("~p -> ~ts ~n", [Name, StratDescription]) end, Strategies),
+
+  disconnect(Client),
+  ok.

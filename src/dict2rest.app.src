@@ -1,0 +1,18 @@
+%%-*- mode: erlang -*-
+{application, dict2rest,
+ [
+  {description, "dict2rest is a webservice allowing you to query dictd servers using a simple REST API."},
+  {vsn, "0.1.0"},
+  {modules, []},
+  {registered, [dict2rest_client_worker]},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  inets,
+                  crypto,
+                  mochiweb,
+                  webmachine
+                 ]},
+  {mod, { dict2rest_app, []}},
+  {env, [{dictd_host, "dict.mova.org"}, {dictd_port, 2628}]}
+ ]}.

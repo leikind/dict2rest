@@ -1,0 +1,13 @@
+{application,dict2rest,
+             [{description,"dict2rest is a webservice allowing you to query dictd servers using a simple REST API."},
+              {vsn,"0.1.0"},
+              {modules,[dict2rest,dict2rest_app,dict2rest_client_worker,
+                        dict2rest_client_worker_supervisor,
+                        dict2rest_counters_resource,dict2rest_define_resource,
+                        dict2rest_dict_client,dict2rest_dictionaries_resource,
+                        dict2rest_match_resource,dict2rest_output,
+                        dict2rest_strategies_resource,dict2rest_sup]},
+              {registered,[dict2rest_client_worker]},
+              {applications,[kernel,stdlib,inets,crypto,mochiweb,webmachine]},
+              {mod,{dict2rest_app,[]}},
+              {env,[{dictd_host,"dict.mova.org"},{dictd_port,2628}]}]}.
