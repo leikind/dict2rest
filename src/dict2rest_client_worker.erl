@@ -101,6 +101,7 @@ handle_call(strategies, _From, State) ->
   ets:insert(dict2rest_cache, {strategies, calendar:local_time(), Strategies}),
   {reply, Strategies, State#state{client = NewClient}, ?DISCONNECT_TIMEOUT};
 
+
 handle_call({define, Word, Dictionary}, _From, State) ->
   NewClient = connect(State),
   Definitions = dict2rest_dict_client:define(NewClient, Word, Dictionary),
@@ -127,7 +128,7 @@ terminate(_Reason, #state{client = Client}) ->
   ok.
 
 handle_info(timeout, #state{client = undefined} =  State) ->
-    io:format("not disconnecting~n"),
+    % io:format("not disconnecting~n"),
     {noreply, State};
 
 handle_info(timeout, #state{client = Client} =  State) ->
@@ -143,7 +144,7 @@ code_change(_OldVsn, State, _Extra) -> {ok, State}.
 
 
 connect(#state{client = undefined, host = Host, port = Port}) ->
-  io:format("connecting~n"),
+  % io:format("connecting~n"),
   dict2rest_dict_client:connect(Host, Port);
 connect(#state{client = Client})  -> Client.
 
