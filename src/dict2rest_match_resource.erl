@@ -32,7 +32,20 @@ resource_exists(ReqData, State) ->
       Strategies = dict2rest_client_worker:strategies(),
 
       case proplists:is_defined(unicode:characters_to_binary(Strategy), Strategies) of
-        true  ->  {true, {strategy, Strategy}};
+
+        true  ->
+          case wrq:path_info(dictionary, ReqData) of
+            undefined  -> {true, {strategy_and_dictionary, Strategy, "*"}};
+            Dictionary ->
+
+              Dictionaries = dict2rest_client_worker:dictionaries(),
+
+              case proplists:is_defined(unicode:characters_to_binary(Dictionary), Dictionaries) of
+                true  ->  {true, {strategy_and_dictionary, Strategy, Dictionary}};
+                false ->  {false, State}
+              end
+          end;
+
         false ->  {false, State}
       end
 
@@ -47,9 +60,9 @@ to_json(ReqData, State) ->
     undefined -> { mochijson:encode({struct, [{error, no_word}]}), ReqData, State };
 
     Word  ->
-      {strategy, Strategy} = State,
+      {strategy_and_dictionary, Strategy, Dictionary} = State,
 
-      Matches = dict2rest_client_worker:match(list_to_binary(Word), Strategy),
+      Matches = dict2rest_client_worker:match(list_to_binary(Word), Strategy, Dictionary),
 
       {dict2rest_output:struct(Matches), ReqData, State}
   end.

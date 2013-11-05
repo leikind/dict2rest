@@ -34,6 +34,7 @@
          strategies/0,
          define/2,
          match/2,
+         match/3,
          match_counter/0,
          define_counter/0
 ]).
@@ -75,6 +76,10 @@ match(Word, Strategy) ->
     gen_server:call(?MODULE, {match, Word, Strategy}).
 
 
+match(Word, Strategy, Dictionary) ->
+    gen_server:call(?MODULE, {match, Word, Strategy, Dictionary}).
+
+
 match_counter() ->
     gen_server:call(?MODULE, match_counter).
 
@@ -107,10 +112,18 @@ handle_call({define, Word, Dictionary}, _From, State) ->
   Definitions = dict2rest_dict_client:define(NewClient, Word, Dictionary),
   {reply, Definitions, State#state{client = NewClient, define_counter = State#state.define_counter + 1}, ?DISCONNECT_TIMEOUT};
 
+% TODO: refactor
 handle_call({match, Word, Strategy}, _From, State) ->
   NewClient = connect(State),
   Matches = dict2rest_dict_client:match(NewClient, Word, Strategy),
   {reply, Matches, State#state{client = NewClient, match_counter = State#state.match_counter + 1}, ?DISCONNECT_TIMEOUT};
+
+handle_call({match, Word, Strategy, Dictionary}, _From, State) ->
+  NewClient = connect(State),
+  Matches = dict2rest_dict_client:match(NewClient, Word, Strategy, Dictionary),
+  {reply, Matches, State#state{client = NewClient, match_counter = State#state.match_counter + 1}, ?DISCONNECT_TIMEOUT};
+
+
 
 handle_call(match_counter, _From, #state{match_counter = Counter} = State) ->
   {reply, Counter, State, ?DISCONNECT_TIMEOUT};
@@ -132,7 +145,7 @@ handle_info(timeout, #state{client = undefined} =  State) ->
     {noreply, State};
 
 handle_info(timeout, #state{client = Client} =  State) ->
-    io:format("disconnecting~n"),
+    % io:format("disconnecting~n"),
     dict2rest_dict_client:disconnect(Client),
     {noreply, State#state{client = undefined}};
 

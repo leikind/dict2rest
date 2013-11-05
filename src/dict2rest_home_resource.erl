@@ -49,12 +49,22 @@ Match a word using all strategies:
 
 Match a word using a certain strategy:
 
-        /match/STRATEGY?w=apple
+        /match/STRATEGY?w=WORD
 
 
 For example
 
         /match/prefix?w=appl
+
+
+Match a word using a certain strategy in a certain dictionary:
+
+        /match/STRATEGY/DICTIONARY?w=WORD
+
+
+For example
+
+        /match/prefix/magus?w=apple
 
 
 2013 Yuri Leikind
