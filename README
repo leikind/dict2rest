@@ -1,32 +1,44 @@
+DICT is a dictionary network protocol created by the DICT Development Group.[1] It is described by RFC 2229, published in 1997.
 
-run() ->
-  Client = connect(),
-  % Help = server_info(Client),
-  % io:format("~p~n", [Client]),
-  % io:format("~ts~n", [Help]),
+This application embed a DICT client and allows you to query DICT servers via a simple RESTful JSON webservice:
 
-  L = match(Client, "aаааpple", "exact"),
 
-  lists:foreach(
-    fun(E) ->
-      io:format("~p~n", [E])
-      % case parse_as_word_definition_header(E) of
-      %   nomatch -> io:format("nomatch~n", []);
-      %   {match, _, _, _} -> io:format("match~n", [])
-      % end
-    end,
-    L),
+A list of dictionaries available on the DICT server:
 
-  % Databases = databases(Client),
+  /dictionaries
 
-  % Res = proplists:is_defined(<<"foldoc">>, Databases),
 
-  % io:format("~p~n", [Res]),
+A list of matching strategies supported by the DICT server:
 
-  % lists:foreach(fun({Name, DictDescription}) -> io:format("~p -> ~ts ~n", [Name, DictDescription]) end, Databases),
+  /strategies
 
-  % Strategies = strategies(Client),
-  % lists:foreach(fun({Name, StratDescription}) -> io:format("~p -> ~ts ~n", [Name, StratDescription]) end, Strategies),
 
-  disconnect(Client),
-  ok.
+Find definitions of a word in all dictionaries:
+
+  /define?w=WORD
+
+
+Find definitions of a word in a certain dictionary:
+
+  /define/DICTIONARY?w=WORD
+
+For example:
+
+  /define/muiswerk?w=meisje
+
+
+Match a word using all strategies:
+
+  /match?w=WORD
+
+Match a word using a certain strategy:
+
+  /match/STRATEGY?w=apple
+
+
+For example
+
+  /match/prefix?w=appl
+
+
+2013 Yuri Leikind
