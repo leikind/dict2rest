@@ -1,4 +1,20 @@
-DICT is a dictionary network protocol created by the DICT Development Group.[1] It is described by RFC 2229, published in 1997.
+
+-module(dict2rest_home_resource).
+-export([init/1, to_text/2, allowed_methods/2, content_types_provided/2]).
+
+-include_lib("webmachine/include/webmachine.hrl").
+-include("include/common_definitions.hrl").
+
+init([]) -> {ok, undefined}.
+
+allowed_methods(ReqData, State) ->  {['GET'], ReqData, State}.
+
+content_types_provided(ReqData, State) ->
+    {[{"text/plain", to_text}], ReqData, State}.
+
+to_text(ReqData, State) ->
+
+  Text  = <<"DICT is a dictionary network protocol created by the DICT Development Group.[1] It is described by RFC 2229, published in 1997.
 
 This application embeds a DICT client and allows you to query DICT servers via a simple RESTful JSON webservice:
 
@@ -42,3 +58,5 @@ For example
 
 
 2013 Yuri Leikind
+">>,
+  {Text, ReqData, State}.
