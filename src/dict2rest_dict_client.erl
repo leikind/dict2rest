@@ -143,7 +143,7 @@ define(#client{sock = Socket}, Word, Database) ->
 
 %% @doc Match a word using all strategies in all databases.
 -spec match(client(), iolist()) -> [{binary(), binary()}].
-match(Client, Word)             -> match(Client, Word, ?ALL_STRATEGIES).
+match(Client, Word)             -> match(Client, Word, ?DEFAULT_STRATEGY).
 
 %% @doc Match a word using a certain strategy in all databases.
 -spec match(client(), iolist(), nonempty_string()) -> [{binary(), binary()}].
@@ -175,6 +175,7 @@ readline(Socket) ->
 %% @doc Send a dict command.
 -spec send_command(socket(), binary()) -> ok | {error, closed | inet:posix()}.
 send_command(Socket, Line) ->
+  % io:format("~ts~n", [Line]),
   gen_tcp:send(Socket, unicode:characters_to_binary([Line, ?EOL])).
 
 %% @doc Extract a response code from a line.
