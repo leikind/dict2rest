@@ -6,4 +6,4 @@
 }).
 
 -define(ALL_DICTIONARIES, "*").
--define(ALL_STRATEGIES, ".").
+-define(DEFAULT_STRATEGY, ".").
