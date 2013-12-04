@@ -14,6 +14,7 @@
 -export([init/1, to_json/2, allowed_methods/2, content_types_provided/2, resource_exists/2]).
 
 -include_lib("webmachine/include/webmachine.hrl").
+-include("include/common_definitions.hrl").
 
 init([]) -> {ok, undefined}.
 
@@ -26,7 +27,7 @@ content_types_provided(ReqData, State) ->
 resource_exists(ReqData, State) ->
 
   {Response, NewState} = case wrq:path_info(strategy, ReqData) of
-    undefined    -> {true, {strategy_and_dictionary, ".", "*"}};
+    undefined    -> {true, {strategy_and_dictionary, ?ALL_STRATEGIES, ?ALL_DICTIONARIES}};
     Strategy   ->
 
       Strategies = dict2rest_client_worker:strategies(),
@@ -35,7 +36,7 @@ resource_exists(ReqData, State) ->
 
         true  ->
           case wrq:path_info(dictionary, ReqData) of
-            undefined  -> {true, {strategy_and_dictionary, Strategy, "*"}};
+            undefined  -> {true, {strategy_and_dictionary, Strategy, ?ALL_DICTIONARIES}};
             Dictionary ->
 
               Dictionaries = dict2rest_client_worker:dictionaries(),

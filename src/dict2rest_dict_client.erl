@@ -18,8 +18,6 @@
 -define(EOL, "\r\n").
 -define(EOD, <<".\r\n">>).
 -define(RESPONSE_OK, 250).
--define(ALL_DICTIONARIES, "*").
--define(ALL_STRATEGIES, ".").
 
 
 -record(client, {

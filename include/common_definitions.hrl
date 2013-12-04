@@ -4,3 +4,6 @@
   word                     :: binary(),
   definition = <<"">>      :: binary()
 }).
+
+-define(ALL_DICTIONARIES, "*").
+-define(ALL_STRATEGIES, ".").
