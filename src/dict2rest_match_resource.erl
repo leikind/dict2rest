@@ -26,7 +26,7 @@ content_types_provided(ReqData, State) ->
 resource_exists(ReqData, State) ->
 
   {Response, NewState} = case wrq:path_info(strategy, ReqData) of
-    undefined    -> {true, {strategy, "."}};
+    undefined    -> {true, {strategy_and_dictionary, ".", "*"}};
     Strategy   ->
 
       Strategies = dict2rest_client_worker:strategies(),
